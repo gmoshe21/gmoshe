@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmoshe <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gmoshe <gmoshe@student.42.tr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 14:17:29 by student           #+#    #+#             */
-/*   Updated: 2020/05/15 17:00:34 by student          ###   ########.fr       */
+/*   Created: 2020/05/16 03:40:45 by gmoshe            #+#    #+#             */
+/*   Updated: 2020/05/16 03:40:48 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# include <string.h>
+
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -49,4 +49,5 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(const char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 int		ft_atoi(const char *str);
+void	ft_putnbr_fd(int n, int fd);
 #endif
