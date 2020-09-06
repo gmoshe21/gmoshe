@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 17:40:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/05 18:05:51 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/06 16:35:21 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ int	main(void)
 	printf("%d\n", cub.myY);
 	printf("%d\n", sh);
 	//mlx = mlx_init();
+	movement(&cub, &raycast);
+	raycasting(&cub, &raycast);
 	//win = mlx_new_window(mlx, cub.extension_width, cub.extension_height, "cub3d");
 	//mlx_loop(mlx);
 	while(*cub.map)
