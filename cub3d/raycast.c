@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 16:07:37 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/06 16:38:28 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/07 18:25:58 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,18 @@ void	next(t_cub *cub, t_raycast *rc, int x)
 		}
 }
 
+void	floop(t_cub *cub, t_raycast *rc, int x)
+{
+	int		i;
+
+	i = rc->drawEnd;
+	while (i < cub->extension_height)
+	{
+		my_mlx_pixel_put();
+		i++;
+	}
+}
+
 void	texture_coordinate_stepping(t_cub *cub, t_raycast *rc, int x)
 {
 	int		i;
@@ -98,4 +110,5 @@ void	texture_coordinate_stepping(t_cub *cub, t_raycast *rc, int x)
 	i = rc->drawStart;
 	while (i++ < rc->drawEnd)
 		next(cub, rc, x);
+	floop(cub, rc, x);
 }

@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 16:39:07 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/06 18:30:11 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/07 17:26:51 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,20 @@ void	turn_sideways(t_cub *cub, t_raycast *rc)
 	if (cub->left)
 	{
 		olddirX = cub->dirX;
-		cub->dirX = cub->dirX * cos(-rotSpeed) - cub->dirY * sin(-rotSpeed);
-		cub->dirY = olddirX * sin(-rotSpeed) * cub->dirY * cos(-rotSpeed);
+		cub->dirX = cub->dirX * cos(-rc->rotSpeed) - cub->dirY * sin(-rc->rotSpeed);
+		cub->dirY = olddirX * sin(-rc->rotSpeed) * cub->dirY * cos(-rc->rotSpeed);
 		oldplaneX = cub->planeX;
-		cub->planeX = cub->planeX * cos(-rotSpeed) - cub->planeY * sin(-rotSpeed);
-		cub->planeY = oldplaneX * sin(-rotSpeed) + cub->planeY * cos(-rotSpeed);
+		cub->planeX = cub->planeX * cos(-rc->rotSpeed) - cub->planeY * sin(-rc->rotSpeed);
+		cub->planeY = oldplaneX * sin(-rc->rotSpeed) + cub->planeY * cos(-rc->rotSpeed);
 	}
 	if (cub->right)
 	{
 		olddirX = cub->dirX;
-		cub->dirX = cub->dirX * cos(rotSpeed) - cub->dirY * sin(rotSpeed);
-		cub->dirY = olddirX * sin(rotSpeed) * cub->dirY * cos(rotSpeed);
+		cub->dirX = cub->dirX * cos(rc->rotSpeed) - cub->dirY * sin(rc->rotSpeed);
+		cub->dirY = olddirX * sin(rc->rotSpeed) * cub->dirY * cos(rc->rotSpeed);
 		oldplaneX = cub->planeX;
-		cub->planeX = cub->planeX * cos(rotSpeed) - cub->planeY * sin(rotSpeed);
-		cub->planeY = oldplaneX * sin(rotSpeed) + cub->planeY * cos(rotSpeed);
+		cub->planeX = cub->planeX * cos(rc->rotSpeed) - cub->planeY * sin(rc->rotSpeed);
+		cub->planeY = oldplaneX * sin(rc->rotSpeed) + cub->planeY * cos(rc->rotSpeed);
 	}
 }
 

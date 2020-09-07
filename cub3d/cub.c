@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 17:40:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/06 16:35:21 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/07 17:56:46 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,77 @@
 #include "get_next_line.h"
 #include "libft.h"
 
+void		position(t_cub *cub, int x, int y)
+{
+	cub->myX = x + 0.5;
+	cub->myY = y + 0.5;
+	if (cub->map[y][x] == 'N')
+	{
+		cub->dirX = 0;
+		cub->dirY = -1;
+		cub->planeX = 1;
+		cub->planeY = 0;
+	}
+	if (cub->map[y][x] == 'S')
+	{
+		cub->dirX = 0;
+		cub->dirY = 1;
+		cub->planeX = -1;
+		cub->planeY = 0;
+	}
+	if (cub->map[y][x] == 'W')
+	{
+		cub->dirX = -1;
+		cub->dirY = 0;
+		cub->planeX = 0;
+		cub->planeY = -1;
+	}
+	if (cub->map[y][x] == 'E')
+	{
+		cub->dirX = 1;
+		cub->dirY = 0;
+		cub->planeX = 0;
+		cub->planeY = 1;
+	}
+	cub->map[y][x] = '0';
+}
+
 void		my_spr(t_cub *cub)
 {
-	while (*cub->map[cub->myY])
+	int		x;
+	int		y;
+
+	x = 0;
+	y = 0; 
+	while (*cub->map[y])
 	{
-		cub->myX = 0;
-		while (cub->map[cub->myY][cub->myX])
+		x = 0;
+		while (cub->map[y][x])
 		{
-			if(cub->map[cub->myY][cub->myX] == 'N')
+			if(cub->map[y][x] == 'N')
 				break;
-			cub->myX++;
+			x++;
 		}
-		if(cub->map[cub->myY][cub->myX] == 'N')
-			break;
-		cub->myY++;
-	}
-	while (*cub->map[cub->spY])
-	{
-		cub->spX = 0;
-		while (cub->map[cub->spY][cub->spX])
+		if(cub->map[y][x] == 'N')
 		{
-			if(cub->map[cub->spY][cub->spX] == '2')
-				break;
-			cub->spX++;
-		}
-		if(cub->map[cub->spY][cub->spX] == '2')
+			position(cub, x, y);
 			break;
-		cub->spY++;
+		}
+		y++;
 	}
+//	while (*cub->map[cub->spY])
+//	{
+//		cub->spX = 0;
+//		while (cub->map[cub->spY][cub->spX])
+//		{
+//			if(cub->map[cub->spY][cub->spX] == '2')
+//				break;
+//			cub->spX++;
+//		}
+//		if(cub->map[cub->spY][cub->spX] == '2')
+//			break;
+//		cub->spY++;
+//	}
 }
 
 void		reading(t_cub *cub)
@@ -95,15 +138,13 @@ int	main(void)
 	dl = 2 | 5;
 	//while (*(cub.map))
 	//	printf("%s\n", *(cub.map++));
-	printf("dl = %d,", dl);
-	printf("sp = %d,", cub.spX);
-	printf("%d\n", cub.spY);
-	printf("my = %d,", cub.myX);
-	printf("%d\n", cub.myY);
-	printf("%d\n", sh);
+	//printf("dl = %d,", dl);
+	printf("my = %d ", cub.extension_height);
+	printf("%d\n", cub.extension_width);
+	//printf("%d\n", sh);
 	//mlx = mlx_init();
-	movement(&cub, &raycast);
-	raycasting(&cub, &raycast);
+	//movement(&cub, &raycast);
+	//raycasting(&cub, &raycast);
 	//win = mlx_new_window(mlx, cub.extension_width, cub.extension_height, "cub3d");
 	//mlx_loop(mlx);
 	while(*cub.map)
