@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 17:18:55 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/07 19:17:17 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/08 12:12:24 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_color(t_cub *cub, char *line)
 	if ((ft_strnstr(line, "F ", 2)))
 	{
 	line = line + 2;
-	str = ft_split(line, ",");
+	str = ft_split(line, ',');
 	cub->floor = 0;
 	cub->floor = ft_atoi(str[0]) << 16;
 	cub->floor = cub->floor | (ft_atoi(str[1]) << 8);
@@ -37,7 +37,7 @@ void	ft_color(t_cub *cub, char *line)
 	if ((ft_strnstr(line, "C ", 2)))
 	{
 	line = line + 2;
-	str = ft_split(line, ",");
+	str = ft_split(line, ',');
 	cub->ceilling = 0;
 	cub->ceilling = ft_atoi(str[0]) << 16;
 	cub->ceilling = cub->ceilling | (ft_atoi(str[1]) << 8);

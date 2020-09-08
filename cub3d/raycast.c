@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 16:07:37 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/07 18:25:58 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/08 12:10:08 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	coordinate_on_the_texture(t_cub *cub, t_raycast *rc)
 		wallX = cub->myY + rc->perpWallDist * rc->rayDirY;
 	else
 		wallX = cub->myX + rc->perpWallDist * rc->rayDirX;
-	wallX -= floop((wallX));
+	wallX -= floor((wallX));
 	if (rc->side == 0)
 		if (rc->stepX < 0)
 			rc->texX = (int)(wallX * (double)(rc->tWidth[0]));
@@ -41,7 +41,7 @@ void	coordinate_on_the_texture(t_cub *cub, t_raycast *rc)
 		rc->texX = rc->tWidth[3] - rc->texX - 1;
 }
 
-void	next(t_cub *cub, t_raycast *rc, int x)
+void	next(t_cub *cub, t_raycast *rc, int x, int i)
 {
 	int		texY;
 	
@@ -50,27 +50,27 @@ void	next(t_cub *cub, t_raycast *rc, int x)
 		if (rc->stepX < 0)
 		{
 			texY = (int)rc->texPos & (rc->tHeight[0] - 1);
-			rc->color = rc->texture[0][rc->tHeight[0] * texY + rc->texX]
-			my_mlx_pixel_put();
+			rc->color = rc->texture[0][rc->tHeight[0] * texY + rc->texX];
+			my_mlx_pixel_put(cub, x, i, rc->color);
 		}
 		else
 		{
 			texY = (int)rc->texPos & (rc->tHeight[1] - 1);
-			rc->color = rc->texture[1][rc->tHeight[1] * texY + rc->texX]
-			my_mlx_pixel_put();
+			rc->color = rc->texture[1][rc->tHeight[1] * texY + rc->texX];
+			my_mlx_pixel_put(cub, x, i, rc->color);
 		}
 	else
 		if (rc->stepY < 0)
 		{
 			texY = (int)rc->texPos & (rc->tHeight[2] - 1);
-			rc->color = rc->texture[2][rc->tHeight[2] * texY + rc->texX]
-			my_mlx_pixel_put();
+			rc->color = rc->texture[2][rc->tHeight[2] * texY + rc->texX];
+			my_mlx_pixel_put(cub, x, i, rc->color);
 		}
 		else
 		{
 			texY = (int)rc->texPos & (rc->tHeight[3] - 1);
-			rc->color = rc->texture[3][rc->tHeight[3] * texY + rc->texX]
-			my_mlx_pixel_put();
+			rc->color = rc->texture[3][rc->tHeight[3] * texY + rc->texX];
+			my_mlx_pixel_put(cub, x, i, rc->color);
 		}
 }
 
@@ -81,7 +81,7 @@ void	floop(t_cub *cub, t_raycast *rc, int x)
 	i = rc->drawEnd;
 	while (i < cub->extension_height)
 	{
-		my_mlx_pixel_put();
+		my_mlx_pixel_put(cub, x, i, cub->floor);
 		i++;
 	}
 }
@@ -103,12 +103,12 @@ void	texture_coordinate_stepping(t_cub *cub, t_raycast *rc, int x)
 			rc->step = 1.0 * rc->tHeight[3] / rc->lineHeight;
 	while (i < rc->drawStart)
 	{
-		my_mlx_pixel_put();
+		my_mlx_pixel_put(cub, x, i, cub->ceilling);
 		i++;
 	}
 	rc->texPos = (rc->drawStart - cub->extension_height / 2 +rc->lineHeight / 2) * rc->step;
 	i = rc->drawStart;
 	while (i++ < rc->drawEnd)
-		next(cub, rc, x);
+		next(cub, rc, x, i);
 	floop(cub, rc, x);
 }

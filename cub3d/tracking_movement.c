@@ -6,11 +6,25 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 16:39:07 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/07 17:26:51 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/08 13:39:56 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub.h"
+
+int			draw_frame(t_cub *cub, t_raycast *rc)
+{
+  if (!(cub->w || cub->left || cub->right || cub->a || cub->s || cub->d))
+    return (0);
+	check_state(cub, rc);
+	cub->img = mlx_new_image(cub->mlx, cub->extension_width, cub->extension_height);
+	cub->add =  mlx_get_data_addr(cub->img, &cub->pixel, &cub->length, &cub->endian);
+	raycasting(cub, rc);
+  //mlx_do_sync(game->mlx);
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->img, 0, 0);
+	mlx_destroy_image(cub->mlx, cub->img);
+	return (0);
+}
 
 void	key_w_s(t_cub *cub, t_raycast *rc)
 {

@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 19:35:23 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/07 17:57:30 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/08 12:07:50 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,11 @@ void pars_other(char *line, t_cub *cub)
 	}
 	if ((ft_strnstr(line, "F ", 2)))
 	{
-		line = line + 2;
-		cub->floor = ft_split(line, ',');
+		ft_color(cub, line);
 	}
 	if ((ft_strnstr(line, "C ", 2)))
 	{
-		line = line + 2;
-		cub->ceilling = ft_split(line, ',');
+		ft_color(cub, line);
 	}
 }
 

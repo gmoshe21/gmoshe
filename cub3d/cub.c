@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 17:40:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/07 17:56:46 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/08 13:19:20 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void		reading(t_cub *cub)
 	my_spr(cub);
 }
 
-void		struc(t_cub *cub)
+void		struc(t_cub *cub, t_raycast *rc)
 {
 	cub->north = NULL;
 	cub->south = NULL;
@@ -120,37 +120,41 @@ void		struc(t_cub *cub)
 	cub->myY = 0;
 	cub->spX = 0;
 	cub->spY = 0;
+	rc->moveSpeed = 0.05;
+	rc->rotSpeed = 0.03;
 }
 
 int	main(void)
 {
 	t_cub		cub;
 	t_raycast	raycast;
-	void		*mlx;
-	void		*win;
-	int			dl = 0;
-	int			sh = 0;
 	
-	mlx = NULL;
-	win = NULL;
-	struc(&cub);
+	struc(&cub, &raycast);
 	reading(&cub);
-	dl = 2 | 5;
+	
 	//while (*(cub.map))
 	//	printf("%s\n", *(cub.map++));
 	//printf("dl = %d,", dl);
-	printf("my = %d ", cub.extension_height);
-	printf("%d\n", cub.extension_width);
+	printf("my = %d ", cub.floor);
+	printf("%d\n", cub.ceilling);
 	//printf("%d\n", sh);
-	//mlx = mlx_init();
-	//movement(&cub, &raycast);
-	//raycasting(&cub, &raycast);
-	//win = mlx_new_window(mlx, cub.extension_width, cub.extension_height, "cub3d");
-	//mlx_loop(mlx);
-	while(*cub.map)
-	{
-		printf("%s\n", *cub.map);
-		cub.map++;
-	}
-	return (0);
+	cub.mlx = mlx_init();
+	cub.win = mlx_new_window(cub.mlx, cub.extension_width, cub.extension_height, "cub3d");
+	movement(&cub, &raycast);
+	cub.img = mlx_new_image(cub.mlx, cub.extension_width, cub.extension_height);
+	cub.add = mlx_get_data_addr(cub.img, &cub.pixel, &cub.length, &cub.endian);
+	raycasting(&cub, &raycast);
+	mlx_put_image_to_window(cub.mlx, cub.win, cub.img, 0, 0);
+	mlx_destroy_image(cub.mlx, cub.win);
+	mlx_loop_hook(cub.mlx, draw_frame, &cub, &raycast);
+	mlx_hook(cub.win, 2, (1L<<0), key_p, &cub);
+	mlx_hook(cub.win, 3, (1L<<1), key_u, &cub);
+	
+	mlx_loop(cub.mlx);
+	//while(*cub.map)
+	//{
+	//	printf("%s\n", *cub.map);
+	//	cub.map++;
+	//}
+	//return (0);
 }
