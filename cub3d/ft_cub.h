@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 19:10:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/08 13:17:13 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/09 18:40:05 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct	s_cub
 	char	*west;
 	char	*east;
 	char	*sprite;
+	char	*texfloor;
+	char	*texceilling;
 	int		extension_height;
 	int		extension_width;
 	int		floor;
@@ -53,10 +55,10 @@ typedef struct	s_cub
 	int		d;
 	int		left;
 	int		right;
-	int		dirX;
-	int		dirY;
-	int		planeX;
-	int		planeY;
+	double		dirX;
+	double		dirY;
+	double		planeX;
+	double		planeY;
 	void	*mlx;
 	void	*win;
 	int		pixel;
@@ -64,6 +66,8 @@ typedef struct	s_cub
 	char	*add;
 	void	*img;
 	int		endian;
+	double	moveSpeed;
+	double	rotSpeed;
 }			t_cub;
 
 typedef struct	s_raycast
@@ -71,6 +75,16 @@ typedef struct	s_raycast
 	double	cameraX;
 	double	rayDirX;
 	double	rayDirY;
+	float	rayDirX0;
+	float	rayDirX1;
+	float	rayDirY0;
+	float	rayDirY1;
+	float	posZ;
+	float	rowDistance;
+	float floorStepX; 
+	float floorStepY;
+	float floorX; 
+	float floorY;
 	int		mapX;
 	int		mapY;
 	double	sideDistX;
@@ -83,27 +97,27 @@ typedef struct	s_raycast
 	int		stepX;
 	int		stepY;
 	int		lineHeight;
-	int		tHeight[4];
-	int		tWidth[4];
-	int		*texture[4];
+	int		tHeight[5];
+	int		tWidth[5];
+	int		*texture[5];
 	int		drawStart;
 	int		drawEnd;
 	int		texX;
 	double	step;
 	double	texPos;
 	int		color;
-	double	moveSpeed;
-	double	rotSpeed;
 }			t_raycast;
 
 void	parsing(char *line, t_cub *cub);
-void	raycasting(t_cub *cub, t_raycast *rc);
+void	raycasting(t_cub *cub);
 void	texture_coordinate_stepping(t_cub *cub, t_raycast *rc, int x);
-void	movementrayd(t_cub *cub, t_raycast *rc);
+void	movement(t_cub *cub);
 int		key_p(int key, t_cub *cub);
 int		key_u(int key, t_cub *cub);
 void	my_mlx_pixel_put(t_cub *cub, int x, int y, int color);
 void	ft_color(t_cub *cub, char *line);
-int		draw_frame(t_cub *cub, t_raycast *rc);
+int		frame(t_cub *cub);
+void	coordinate_on_the_texture(t_cub *cub, t_raycast *rc);
+void	drawing_floor_ceiling(t_cub *cub, t_raycast *rc);
 
 #endif

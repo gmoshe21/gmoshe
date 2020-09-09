@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 18:27:42 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/07 18:22:11 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/09 18:49:49 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	rayd(t_cub *cub, t_raycast *rc)
 	else
 	{
 		rc->stepX = 1;
-		rc->sideDistX = (cub->myX + 1.0 - rc->mapX) * rc->deltaDistX;
+		rc->sideDistX = (rc->mapX + 1.0 - cub->myX) * rc->deltaDistX;
 	}
 	if (rc->rayDirY < 0)
 	{
@@ -32,23 +32,24 @@ void	rayd(t_cub *cub, t_raycast *rc)
 	else
 	{
 		rc->stepY = 1;
-		rc->sideDistY = (cub->myY + 1.0 - rc->mapY) * rc->deltaDistY;
+		rc->sideDistY = (rc->mapY + 1.0 - cub->myY) * rc->deltaDistY;
 	}
 }
 
 void	dda(t_cub *cub, t_raycast *rc)
 {
+	rc->hit = 0;
 	while (rc->hit == 0)
 	{
-		if (rc->deltaDistX < rc->deltaDistY)
+		if (rc->sideDistX < rc->sideDistY)
 		{
-			rc->deltaDistX += rc->deltaDistX;
+			rc->sideDistX += rc->deltaDistX;
 			rc->mapX += rc->stepX;
 			rc->side = 0;
 		}
 		else
 		{
-			rc->deltaDistY += rc->deltaDistY;
+			rc->sideDistY += rc->deltaDistY;
 			rc->mapY += rc->stepY;
 			rc->side = 1;
 		}
@@ -64,7 +65,7 @@ void	dda(t_cub *cub, t_raycast *rc)
 
 void	texture(t_cub *cub, t_raycast *rc)
 {
-	void	*tx[4];
+	void	*tx[5];
 	int		b;
 	int		s;
 	int		e;
@@ -73,10 +74,14 @@ void	texture(t_cub *cub, t_raycast *rc)
 	tx[1] = mlx_xpm_file_to_image(cub->mlx, cub->east, &rc->tWidth[1], &rc->tHeight[1]);
 	tx[2] = mlx_xpm_file_to_image(cub->mlx, cub->south, &rc->tWidth[2], &rc->tHeight[2]);
 	tx[3] = mlx_xpm_file_to_image(cub->mlx, cub->north, &rc->tWidth[3], &rc->tHeight[3]);
+	//tx[4] = mlx_xpm_file_to_image(cub->mlx, cub->texfloor, &rc->tWidth[4], &rc->tHeight[4]);
+	//tx[5] = mlx_xpm_file_to_image(cub->mlx, cub->ceilling, &rc->tWidth[5], &rc->tHeight[5]);
 	rc->texture[0] = (int*)mlx_get_data_addr(tx[0], &b, &s, &e);
 	rc->texture[1] = (int*)mlx_get_data_addr(tx[1], &b, &s, &e);
 	rc->texture[2] = (int*)mlx_get_data_addr(tx[2], &b, &s, &e);
 	rc->texture[3] = (int*)mlx_get_data_addr(tx[3], &b, &s, &e);
+	//rc->texture[4] = (int*)mlx_get_data_addr(tx[4], &b, &s, &e);
+	//rc->texture[5] = (int*)mlx_get_data_addr(tx[5], &b, &s, &e);
 }
 
 void	height_pixel(t_cub *cub, t_raycast *rc)
@@ -90,26 +95,29 @@ void	height_pixel(t_cub *cub, t_raycast *rc)
 		rc->drawEnd = cub->extension_height - 1;
 }
 
-void	raycasting(t_cub *cub, t_raycast *rc)
+void	raycasting(t_cub *cub)
 {
 	int	x;
+	t_raycast	raycast;
 
 	x = 0;
-	texture(cub, rc);
+	texture(cub, &raycast);
+	drawing_floor_ceiling(cub, &raycast);
 	while (x < cub->extension_width)
 	{
-		rc->cameraX = 2 * x / (double)cub->extension_width - 1;
-		rc->rayDirX = cub->dirX + cub->planeX * rc->cameraX;
-		rc->rayDirY = cub->dirY + cub->planeY * rc->cameraX;
-		rc->mapX = (int)cub->myX;
-		rc->mapY = (int)cub->myY;
-		rc->deltaDistX = fabs(1 / rc->rayDirX);
-		rc->deltaDistX = fabs(1 / rc->rayDirY);
-		rayd(cub, rc);
-		dda(cub, rc);
-		height_pixel(cub, rc);
-		coordinate_on_the_texture(cub, rc);
-		texture_coordinate_stepping(cub, rc, x);
+		raycast.cameraX = 2 * x / (double)cub->extension_width - 1;
+		raycast.rayDirX = cub->dirX + cub->planeX * raycast.cameraX;
+		raycast.rayDirY = cub->dirY + cub->planeY * raycast.cameraX;
+		raycast.mapX = (int)cub->myX;
+		raycast.mapY = (int)cub->myY;
+		raycast.deltaDistX = fabs(1 / raycast.rayDirX);
+		raycast.deltaDistY = fabs(1 / raycast.rayDirY);
+		rayd(cub, &raycast);
+		dda(cub, &raycast);
+		height_pixel(cub, &raycast);
+		coordinate_on_the_texture(cub, &raycast);
+		texture_coordinate_stepping(cub, &raycast, x);
 		x++;
 	}
+	//drawing_floor_ceiling(cub, &raycast);
 }
