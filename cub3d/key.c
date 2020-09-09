@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 17:18:55 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/08 12:12:24 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/09 18:40:03 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	my_mlx_pixel_put(t_cub *cub, int x, int y, int color)
 {
 	char	*put;
 
-	put = cub->add + (y + cub->length + x * (cub->pixel / 8));
+	put = cub->add + (y * cub->length + x * (cub->pixel / 8));
 	*(unsigned int*)put = color;
 }
 

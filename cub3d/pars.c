@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 19:35:23 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/08 12:07:50 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/09 14:48:36 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void pars_other(char *line, t_cub *cub)
 		cub->extension_width = ft_atoi(line);
 		while (*line == ' ')
 			line++;
-		//while (*line != ' ')
-		//	line++;
+		while (*line != ' ')
+			line++;
 		cub->extension_height = ft_atoi(line);
 	}
 	if ((ft_strnstr(line, "F ", 2)))
@@ -55,6 +55,10 @@ void pars_texture(char *line, t_cub *cub)
 		cub->east = texture;
 	else if ((ft_strnstr(line, "S ", 2)))
 		cub->sprite = texture;
+	else if ((ft_strnstr(line, "tf ", 2)))
+		cub->texfloor = texture;
+	else if ((ft_strnstr(line, "tc ", 2)))
+		cub->texceilling = texture;
 }
 
 void	pars_map(char *line, t_cub *cub)

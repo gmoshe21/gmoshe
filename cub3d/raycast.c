@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 16:07:37 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/08 12:10:08 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/09 18:44:04 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,10 @@ void	texture_coordinate_stepping(t_cub *cub, t_raycast *rc, int x)
 	}
 	rc->texPos = (rc->drawStart - cub->extension_height / 2 +rc->lineHeight / 2) * rc->step;
 	i = rc->drawStart;
-	while (i++ < rc->drawEnd)
+	while (i < rc->drawEnd)
+	{
 		next(cub, rc, x, i);
-	floop(cub, rc, x);
+		i++;
+	}
+	//floop(cub, rc, x);
 }
