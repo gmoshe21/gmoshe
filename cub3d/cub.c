@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 17:40:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/14 15:44:31 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/14 18:57:24 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,8 @@
 #include "get_next_line.h"
 #include "libft.h"
 
-void		position(t_cub *cub, int x, int y)
+void	position2(t_cub *cub, int x, int y)
 {
-	cub->myX = x + 0.5;
-	cub->myY = y + 0.5;
-	if (cub->map[y][x] == 'N')
-	{
-		cub->dirX = 0;
-		cub->dirY = -1;
-		cub->planeX = 1;
-		cub->planeY = 0;
-	}
-	if (cub->map[y][x] == 'S')
-	{
-		cub->dirX = 0;
-		cub->dirY = 1;
-		cub->planeX = -1;
-		cub->planeY = 0;
-	}
 	if (cub->map[y][x] == 'W')
 	{
 		cub->dirX = -1;
@@ -49,11 +33,32 @@ void		position(t_cub *cub, int x, int y)
 	cub->map[y][x] = '0';
 }
 
-void		reading(t_cub *cub)
+void	position(t_cub *cub, int x, int y)
+{
+	cub->myX = x + 0.5;
+	cub->myY = y + 0.5;
+	if (cub->map[y][x] == 'N')
+	{
+		cub->dirX = 0;
+		cub->dirY = -1;
+		cub->planeX = 1;
+		cub->planeY = 0;
+	}
+	if (cub->map[y][x] == 'S')
+	{
+		cub->dirX = 0;
+		cub->dirY = 1;
+		cub->planeX = -1;
+		cub->planeY = 0;
+	}
+	position2(cub, x, y);
+}
+
+void	reading(t_cub *cub)
 {
 	char	*line;
 	int		fd;
-	
+
 	fd = open("cub.txt", O_RDONLY);
 	while (get_next_line(fd, &line))
 	{
@@ -64,10 +69,12 @@ void		reading(t_cub *cub)
 	parsing(line, cub);
 	free(line);
 	cub->map = ft_split(cub->map1, '|');
+	if(!(check(cub)))
+		cub->check = 0;
 	my_map(cub);
 }
 
-void		struc(t_cub *cub)
+void	struc(t_cub *cub)
 {
 	cub->north = NULL;
 	cub->south = NULL;
@@ -91,23 +98,20 @@ void		struc(t_cub *cub)
 	cub->mlx = NULL;
 	cub->win = NULL;
 	cub->spnum = 0;
+	cub->check = 1;
 }
 
-int	main(void)
+int		main(void)
 {
-	t_cub		cub;
-	
+	t_cub	cub;
+
 	struc(&cub);
 	reading(&cub);
-	
-	//while (*(cub.map))
-	//printf("%s\n", cub.sprite);
-	//	return(0);
-	//printf("dl = %d", cub.spnum);
-	//	return(0);
-	//printf("my = %d ", cub.floor);
-	//printf("%d\n", cub.ceilling);
-	//printf("%d\n", sh);
+	if (!cub.check)
+	{
+		write(1, "error", 5);
+		return (0);
+	}
 	cub.mlx = mlx_init();
 	cub.win = mlx_new_window(cub.mlx, cub.extension_width, cub.extension_height, "cub3d");
 	movement(&cub);
@@ -117,14 +121,7 @@ int	main(void)
 	mlx_put_image_to_window(cub.mlx, cub.win, cub.img, 0, 0);
 	mlx_destroy_image(cub.mlx, cub.img);
 	mlx_loop_hook(cub.mlx, frame, &cub);
-	mlx_hook(cub.win, 2, (1L<<0), key_p, &cub);
-	mlx_hook(cub.win, 3, (1L<<1), key_u, &cub);
-	
+	mlx_hook(cub.win, 2, (1L << 0), key_p, &cub);
+	mlx_hook(cub.win, 3, (1L << 1), key_u, &cub);
 	mlx_loop(cub.mlx);
-	//while(*cub.map)
-	//{
-	//	printf("%s\n", *cub.map);
-	//	cub.map++;
-	//}
-	//return (0);
 }

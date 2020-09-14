@@ -6,25 +6,18 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/13 14:50:50 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/13 16:45:54 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/14 18:37:11 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub.h"
 
-void	pars_sprit(t_cub *cub, int x)
+void	pars_sprit2(t_cub *cub)
 {
 	int	i;
 	int	j;
 	int	k;
 	
-	i = 0;
-	cub->sp = malloc(sizeof(int) * x);
-	while (i < x)
-	{
-		cub->sp[i] = malloc(sizeof(int) * 2);
-		i++;
-	}
 	j = 0;
 	i = 0;
 	while (cub->map[j])
@@ -44,30 +37,11 @@ void	pars_sprit(t_cub *cub, int x)
 	}
 }
 
-void		my_map(t_cub *cub)
+void	pars_sprit(t_cub *cub, int z)
 {
-	int		x;
-	int		y;
+	int	x;
+	int	y;
 
-	x = 0;
-	y = 0; 
-	while (*cub->map[y])
-	{
-		x = 0;
-		while (cub->map[y][x])
-		{
-			if(cub->map[y][x] == 'N')
-				break;
-			x++;
-		}
-		if(cub->map[y][x] == 'N')
-		{
-			position(cub, x, y);
-			break;
-		}
-		y++;
-	}
-	x = 0;
 	y = 0;
 	while (cub->map[y])
 	{
@@ -77,6 +51,40 @@ void		my_map(t_cub *cub)
 			if(cub->map[y][x] == '2')
 				cub->spnum++;
 			x++;
+		}
+		y++;
+	}
+	y = 0;
+	cub->sp = malloc(sizeof(int) * z);
+	while (y < z)
+	{
+		cub->sp[y] = malloc(sizeof(int) * 2);
+		y++;
+	}
+	pars_sprit2(cub);
+}
+
+void		my_map(t_cub *cub)
+{
+	int		x;
+	int		y;
+	char	f;
+
+	y = 0;
+	while (*cub->map[y])
+	{
+		x = 0;
+		while (cub->map[y][x])
+		{
+			f = cub->map[y][x];
+			if(f == 'N' || f == 'S' || f == 'W' || f == 'E')
+				break;
+			x++;
+		}
+		if(f == 'N' || f == 'S' || f == 'W' || f == 'E')
+		{
+			position(cub, x, y);
+			break;
 		}
 		y++;
 	}

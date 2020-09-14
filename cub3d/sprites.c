@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 16:52:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/14 16:19:44 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/14 17:12:04 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,15 @@ void	drawing_sprites(t_cub *cub, t_raycast *rc, double *ZBuffer)
 	x = rc->drawStartX;
 	while (x < rc->drawEndX)
 	{
-		texX = (int)(256 * (x - (-rc->spriteWidth / 2 + rc->spriteScreenX)) * rc->tWidth[6] / rc->spriteWidth) / 256;
+		texX = (int)(256 * (x - (-rc->spriteWidth / 2 + rc->spriteScreenX)) * rc->tWidth[4] / rc->spriteWidth) / 256;
 		if (rc->transformY > 0 && x > 0 && x < cub->extension_width && rc->transformY < ZBuffer[x])
 		{
 			y = rc->drawStartY;
 			while (y < rc->drawEndY)
 			{
 				z = (y) * 256 - cub->extension_height * 128 + rc->spriteHeight * 128;
-				texY = ((z * rc->tHeight[6]) / rc->spriteHeight) / 256;
-				rc->color = rc->texture[6][rc->tHeight[6] * texY + texX];
+				texY = ((z * rc->tHeight[4]) / rc->spriteHeight) / 256;
+				rc->color = rc->texture[4][rc->tHeight[4] * texY + texX];
 				if(rc->color != 0x000000)
 				my_mlx_pixel_put(cub, x, y, rc->color);
 				y++;

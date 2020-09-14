@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 19:10:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/13 17:38:52 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/14 18:57:06 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,12 @@ enum
 
 typedef struct	s_cub
 {
+	int			check;
 	char		*north;
 	char		*south;
 	char		*west;
 	char		*east;
 	char		*sprite;
-	char		*texfloor;
-	char		*texceilling;
 	int			extension_height;
 	int			extension_width;
 	int			floor;
@@ -75,16 +74,6 @@ typedef struct	s_raycast
 	double	cameraX;
 	double	rayDirX;
 	double	rayDirY;
-	float	rayDirX0;
-	float	rayDirX1;
-	float	rayDirY0;
-	float	rayDirY1;
-	float	posZ;
-	float	rowDistance;
-	float	floorStepX; 
-	float	floorStepY;
-	float	floorX; 
-	float	floorY;
 	int		mapX;
 	int		mapY;
 	double	sideDistX;
@@ -97,9 +86,9 @@ typedef struct	s_raycast
 	int		stepX;
 	int		stepY;
 	int		lineHeight;
-	int		tHeight[7];
-	int		tWidth[7];
-	int		*texture[7];
+	int		tHeight[5];
+	int		tWidth[5];
+	int		*texture[5];
 	int		drawStart;
 	int		drawEnd;
 	int		texX;
@@ -130,9 +119,9 @@ void	my_mlx_pixel_put(t_cub *cub, int x, int y, int color);
 void	ft_color(t_cub *cub, char *line);
 int		frame(t_cub *cub);
 void	coordinate_on_the_texture(t_cub *cub, t_raycast *rc);
-void	drawing_floor_ceiling(t_cub *cub, t_raycast *rc);
 void	sprites(t_cub *cub, t_raycast *rc, double *ZBuffer);
 void	my_map(t_cub *cub);
 void	position(t_cub *cub, int x, int y);
+int		check(t_cub *cub);
 
 #endif
