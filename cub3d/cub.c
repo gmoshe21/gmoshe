@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 17:40:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/09 17:51:10 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/14 15:44:31 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,44 +49,6 @@ void		position(t_cub *cub, int x, int y)
 	cub->map[y][x] = '0';
 }
 
-void		my_spr(t_cub *cub)
-{
-	int		x;
-	int		y;
-
-	x = 0;
-	y = 0; 
-	while (*cub->map[y])
-	{
-		x = 0;
-		while (cub->map[y][x])
-		{
-			if(cub->map[y][x] == 'N')
-				break;
-			x++;
-		}
-		if(cub->map[y][x] == 'N')
-		{
-			position(cub, x, y);
-			break;
-		}
-		y++;
-	}
-//	while (*cub->map[cub->spY])
-//	{
-//		cub->spX = 0;
-//		while (cub->map[cub->spY][cub->spX])
-//		{
-//			if(cub->map[cub->spY][cub->spX] == '2')
-//				break;
-//			cub->spX++;
-//		}
-//		if(cub->map[cub->spY][cub->spX] == '2')
-//			break;
-//		cub->spY++;
-//	}
-}
-
 void		reading(t_cub *cub)
 {
 	char	*line;
@@ -102,7 +64,7 @@ void		reading(t_cub *cub)
 	parsing(line, cub);
 	free(line);
 	cub->map = ft_split(cub->map1, '|');
-	my_spr(cub);
+	my_map(cub);
 }
 
 void		struc(t_cub *cub)
@@ -118,8 +80,6 @@ void		struc(t_cub *cub)
 	cub->map1[0] = '\0';
 	cub->myX = 0;
 	cub->myY = 0;
-	cub->spX = 0;
-	cub->spY = 0;
 	cub->moveSpeed = 0.05;
 	cub->rotSpeed = 0.03;
 	cub->w = 0;
@@ -130,6 +90,7 @@ void		struc(t_cub *cub)
 	cub->right = 0;
 	cub->mlx = NULL;
 	cub->win = NULL;
+	cub->spnum = 0;
 }
 
 int	main(void)
@@ -140,9 +101,10 @@ int	main(void)
 	reading(&cub);
 	
 	//while (*(cub.map))
-	//	printf("%s\n", cub.texfloor);
+	//printf("%s\n", cub.sprite);
 	//	return(0);
-	//printf("dl = %d,", dl);
+	//printf("dl = %d", cub.spnum);
+	//	return(0);
 	//printf("my = %d ", cub.floor);
 	//printf("%d\n", cub.ceilling);
 	//printf("%d\n", sh);

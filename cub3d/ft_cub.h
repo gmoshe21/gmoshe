@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 19:10:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/09 18:40:05 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/13 17:38:52 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,42 +32,42 @@ enum
 
 typedef struct	s_cub
 {
-	char	*north;
-	char	*south;
-	char	*west;
-	char	*east;
-	char	*sprite;
-	char	*texfloor;
-	char	*texceilling;
-	int		extension_height;
-	int		extension_width;
-	int		floor;
-	int		ceilling;
-	char	*map1;
-	char	**map;
+	char		*north;
+	char		*south;
+	char		*west;
+	char		*east;
+	char		*sprite;
+	char		*texfloor;
+	char		*texceilling;
+	int			extension_height;
+	int			extension_width;
+	int			floor;
+	int			ceilling;
+	char		*map1;
+	char		**map;
 	double		myX;
 	double		myY;
-	int		spX;
-	int		spY;
-	int		w;
-	int		a;
-	int		s;
-	int		d;
-	int		left;
-	int		right;
+	int			**sp;
+	int			spnum;
+	int			w;
+	int			a;
+	int			s;
+	int			d;
+	int			left;
+	int			right;
 	double		dirX;
 	double		dirY;
 	double		planeX;
 	double		planeY;
-	void	*mlx;
-	void	*win;
-	int		pixel;
-	int		length;
-	char	*add;
-	void	*img;
-	int		endian;
-	double	moveSpeed;
-	double	rotSpeed;
+	void		*mlx;
+	void		*win;
+	int			pixel;
+	int			length;
+	char		*add;
+	void		*img;
+	int			endian;
+	double		moveSpeed;
+	double		rotSpeed;
 }			t_cub;
 
 typedef struct	s_raycast
@@ -81,10 +81,10 @@ typedef struct	s_raycast
 	float	rayDirY1;
 	float	posZ;
 	float	rowDistance;
-	float floorStepX; 
-	float floorStepY;
-	float floorX; 
-	float floorY;
+	float	floorStepX; 
+	float	floorStepY;
+	float	floorX; 
+	float	floorY;
 	int		mapX;
 	int		mapY;
 	double	sideDistX;
@@ -97,15 +97,27 @@ typedef struct	s_raycast
 	int		stepX;
 	int		stepY;
 	int		lineHeight;
-	int		tHeight[5];
-	int		tWidth[5];
-	int		*texture[5];
+	int		tHeight[7];
+	int		tWidth[7];
+	int		*texture[7];
 	int		drawStart;
 	int		drawEnd;
 	int		texX;
 	double	step;
 	double	texPos;
 	int		color;
+	double	spriteX;
+	double	spriteY;
+	double	invDet;
+	double	transformX;
+	double	transformY;
+	int		spriteScreenX;
+	int		spriteHeight;
+	int		drawStartY;
+	int		drawEndY;
+	int		spriteWidth;
+	int		drawStartX;
+	int		drawEndX;
 }			t_raycast;
 
 void	parsing(char *line, t_cub *cub);
@@ -119,5 +131,8 @@ void	ft_color(t_cub *cub, char *line);
 int		frame(t_cub *cub);
 void	coordinate_on_the_texture(t_cub *cub, t_raycast *rc);
 void	drawing_floor_ceiling(t_cub *cub, t_raycast *rc);
+void	sprites(t_cub *cub, t_raycast *rc, double *ZBuffer);
+void	my_map(t_cub *cub);
+void	position(t_cub *cub, int x, int y);
 
 #endif

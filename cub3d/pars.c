@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 19:35:23 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/09 14:48:36 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/11 15:09:08 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ void pars_texture(char *line, t_cub *cub)
 		cub->east = texture;
 	else if ((ft_strnstr(line, "S ", 2)))
 		cub->sprite = texture;
-	else if ((ft_strnstr(line, "tf ", 2)))
+	else if ((ft_strnstr(line, "tf ", 3)))
 		cub->texfloor = texture;
-	else if ((ft_strnstr(line, "tc ", 2)))
+	else if ((ft_strnstr(line, "tc ", 3)))
 		cub->texceilling = texture;
 }
 
@@ -91,6 +91,10 @@ void	parsing(char *line, t_cub *cub)
 		pars_other(line, cub);
 	else if ((ft_strnstr(line, "C ", 2)))
 		pars_other(line, cub);
+	else if ((ft_strnstr(line, "tf ", 3)))
+		pars_texture(line, cub);
+	else if ((ft_strnstr(line, "tc ", 3)))
+		pars_texture(line, cub);
 	else if (*line == '1')
 	{
 		while (*(line - 1) == ' ')

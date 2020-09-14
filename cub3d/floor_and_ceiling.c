@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 14:55:53 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/09 18:57:03 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/11 15:11:09 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,17 @@ void	texture_rays_and_step(t_cub *cub, t_raycast *rc, int y, int x)
 	int	tx;
 	int	ty;
 	
+
 	cellX = (int)(rc->floorX);
 	cellY = (int)(rc->floorY);
-	tx = (int)(rc->tWidth[0] * (rc->floorX - cellX)) & (rc->tWidth[0] - 1);
-	ty = (int)(rc->tHeight[0] * (rc->floorY - cellY)) & (rc->tHeight[0] - 1);
+	tx = (int)(rc->tWidth[4] * (rc->floorX - cellX)) & (rc->tWidth[4] - 1);
+	ty = (int)(rc->tHeight[4] * (rc->floorY - cellY)) & (rc->tHeight[4] - 1);
 	rc->floorX += rc->floorStepX;
 	rc->floorY += rc->floorStepY;
-	rc->color = rc->texture[3][rc->tWidth[3] * ty + tx];
+	rc->color = rc->texture[4][rc->tWidth[4] * ty + tx];
 	my_mlx_pixel_put(cub, x, y, rc->color);
+	rc->color = rc->texture[5][rc->tWidth[5] * ty + tx];
+	my_mlx_pixel_put(cub, x, cub->extension_height - y - 1, rc->color);
 }
 
 void	drawing_floor_ceiling(t_cub *cub, t_raycast *rc)
@@ -55,6 +58,7 @@ void	drawing_floor_ceiling(t_cub *cub, t_raycast *rc)
 	x = 0;
 	while (y < cub->extension_height)
 	{
+		x = 0;
 		rays_and_step(cub, rc, y);
 		while (x < cub->extension_width)
 		{

@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 16:39:07 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/08 18:39:53 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/11 15:07:37 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int			frame(t_cub *cub)
 	cub->img = mlx_new_image(cub->mlx, cub->extension_width, cub->extension_height);
 	cub->add =  mlx_get_data_addr(cub->img, &cub->pixel, &cub->length, &cub->endian);
 	raycasting(cub);
-  //mlx_do_sync(game->mlx);
+  //mlx_do_sync(cub->mlx);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img, 0, 0);
 	mlx_destroy_image(cub->mlx, cub->img);
 	return (0);
