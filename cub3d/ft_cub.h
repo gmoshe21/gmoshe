@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 19:10:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/18 15:01:02 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/18 18:21:08 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ typedef struct	s_cub
 	int			ceilling;
 	char		*map1;
 	char		**map;
-	double		myX;
-	double		myY;
+	double		myx;
+	double		myy;
 	int			**sp;
 	int			spnum;
 	int			w;
@@ -55,10 +55,10 @@ typedef struct	s_cub
 	int			d;
 	int			left;
 	int			right;
-	double		dirX;
-	double		dirY;
-	double		planeX;
-	double		planeY;
+	double		dirx;
+	double		diry;
+	double		planex;
+	double		planey;
 	void		*mlx;
 	void		*win;
 	int			pixel;
@@ -66,67 +66,71 @@ typedef struct	s_cub
 	char		*add;
 	void		*img;
 	int			endian;
-	double		moveSpeed;
-	double		rotSpeed;
-}			t_cub;
+	double		movespeed;
+	double		rotspeed;
+	int			theight[5];
+	int			twidth[5];
+	int			*texture[5];
+}				t_cub;
 
 typedef struct	s_raycast
 {
-	double	cameraX;
-	double	rayDirX;
-	double	rayDirY;
-	int		mapX;
-	int		mapY;
-	double	sideDistX;
-	double	sideDistY;
-	double	deltaDistX;
-	double	deltaDistY;
-	double	perpWallDist;
-	int		hit;
-	int		side;
-	int		stepX;
-	int		stepY;
-	int		lineHeight;
-	int		tHeight[5];
-	int		tWidth[5];
-	int		*texture[5];
-	int		drawStart;
-	int		drawEnd;
-	int		texX;
-	double	step;
-	double	texPos;
-	int		color;
-	double	spriteX;
-	double	spriteY;
-	double	invDet;
-	double	transformX;
-	double	transformY;
-	int		spriteScreenX;
-	int		spriteHeight;
-	int		drawStartY;
-	int		drawEndY;
-	int		spriteWidth;
-	int		drawStartX;
-	int		drawEndX;
-}			t_raycast;
+	double		camerax;
+	double		raydirx;
+	double		raydiry;
+	int			mapx;
+	int			mapy;
+	double		sidedistx;
+	double		sidedisty;
+	double		deltadistx;
+	double		deltadisty;
+	double		perpwalldist;
+	int			hit;
+	int			side;
+	int			stepx;
+	int			stepy;
+	int			lineheight;
+	// int			theight[5];
+	// int			twidth[5];
+	// int			*texture[5];
+	int			drawstart;
+	int			drawend;
+	int			texx;
+	double		step;
+	double		texpos;
+	int			color;
+	double		spritex;
+	double		spritey;
+	double		invdet;
+	double		transformx;
+	double		transformy;
+	int			spritescreenx;
+	int			spriteheight;
+	int			drawstarty;
+	int			drawendy;
+	int			spritewidth;
+	int			drawstarts;
+	int			drawendx;
+}				t_raycast;
 
-void		parsing(char *line, t_cub *cub);
-void	raycasting(t_cub *cub);
-void	texture_coordinate_stepping(t_cub *cub, t_raycast *rc, int x);
-void	movement(t_cub *cub);
-int		key_p(int key, t_cub *cub);
-int		key_u(int key, t_cub *cub);
-void	my_mlx_pixel_put(t_cub *cub, int x, int y, int color);
-void	ft_color(t_cub *cub, char *line);
-int		frame(t_cub *cub);
-void	coordinate_on_the_texture(t_cub *cub, t_raycast *rc);
-void	sprites(t_cub *cub, t_raycast *rc, double *ZBuffer);
-void	my_map(t_cub *cub);
-void	position(t_cub *cub, int x, int y);
-int		check(t_cub *cub);
-void	valid_floor_ceilling(t_cub *cub, char **str);
-void	error_output(int i);
-int		close_p(int game, t_cub *cub);
+void			parsing(char *line, t_cub *cub);
+void			raycasting(t_cub *cub);
+void			texture_coordinate_stepping(t_cub *cub, t_raycast *rc, int x);
+void			movement(t_cub *cub);
+int				key_p(int key, t_cub *cub);
+int				key_u(int key, t_cub *cub);
+void			my_mlx_pixel_put(t_cub *cub, int x, int y, int color);
+void			ft_color(t_cub *cub, char *line);
+int				frame(t_cub *cub);
+void			coordinate_on_the_texture(t_cub *cub, t_raycast *rc);
+void			sprites(t_cub *cub, t_raycast *rc, double *zbuffer);
+void			my_map(t_cub *cub);
+void			position(t_cub *cub, int x, int y);
+int				check(t_cub *cub);
+void			valid_floor_ceilling(t_cub *cub, char **str);
+void			error_output(int i);
+int				close_p(int game, t_cub *cub);
+void	scrin_bmp(t_cub *cub);
 
 # define CHEK(x) if(!x) return (0);
 

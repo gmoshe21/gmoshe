@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 16:52:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/18 15:01:25 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/18 16:39:11 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	sort_sprit(t_cub *cub, t_raycast *rc, int spriteorder[cub->spnum])
 	while (i < cub->spnum)
 	{
 		spriteorder[i] = i;
-		spritedistance[i] = ((cub->myX - cub->sp[i][1]) * (cub->myX
-		- cub->sp[i][1]) + (cub->myY - cub->sp[i][0])
-		* (cub->myY - cub->sp[i][0]));
+		spritedistance[i] = ((cub->myx - cub->sp[i][1]) * (cub->myx
+		- cub->sp[i][1]) + (cub->myy - cub->sp[i][0])
+		* (cub->myy - cub->sp[i][0]));
 		i++;
 	}
 	sort(spriteorder, spritedistance, cub->spnum);
@@ -65,21 +65,21 @@ void	drawing_sprites(t_cub *cub, t_raycast *rc, double *zbuffer, int z)
 	int	texx;
 	int	texy;
 
-	x = rc->drawStartX - 1;
-	while (++x < rc->drawEndX)
+	x = rc->drawstarts - 1;
+	while (++x < rc->drawendx)
 	{
-		texx = (int)(256 * (x - (-rc->spriteWidth / 2 + rc->spriteScreenX))
-		* rc->tWidth[4] / rc->spriteWidth) / 256;
-		if (rc->transformY > 0 && x > 0 && x < cub->extension_width
-			&& rc->transformY < zbuffer[x])
+		texx = (int)(256 * (x - (-rc->spritewidth / 2 + rc->spritescreenx))
+		* cub->twidth[4] / rc->spritewidth) / 256;
+		if (rc->transformy > 0 && x > 0 && x < cub->extension_width
+			&& rc->transformy < zbuffer[x])
 		{
-			y = rc->drawStartY - 1;
-			while (++y < rc->drawEndY)
+			y = rc->drawstarty - 1;
+			while (++y < rc->drawendy)
 			{
 				z = (y) * 256 - cub->extension_height * 128
-				+ rc->spriteHeight * 128;
-				texy = ((z * rc->tHeight[4]) / rc->spriteHeight) / 256;
-				rc->color = rc->texture[4][rc->tHeight[4] * texy + texx];
+				+ rc->spriteheight * 128;
+				texy = ((z * cub->theight[4]) / rc->spriteheight) / 256;
+				rc->color = cub->texture[4][cub->theight[4] * texy + texx];
 				if (rc->color != 0x000000)
 					my_mlx_pixel_put(cub, x, y, rc->color);
 			}
@@ -91,18 +91,18 @@ void	sprites_next(t_cub *cub, t_raycast *rc, double *zbuffer)
 {
 	int	z;
 
-	if (rc->drawStartY < 0)
-		rc->drawStartY = 0;
-	rc->drawEndY = rc->spriteHeight / 2 + cub->extension_height / 2;
-	if (rc->drawEndY >= cub->extension_height)
-		rc->drawEndY = cub->extension_height - 1;
-	rc->spriteWidth = abs((int)(cub->extension_height / (rc->transformY)));
-	rc->drawStartX = -rc->spriteWidth / 2 + rc->spriteScreenX;
-	if (rc->drawStartX < 0)
-		rc->drawStartX = 0;
-	rc->drawEndX = rc->spriteWidth / 2 + rc->spriteScreenX;
-	if (rc->drawEndX >= cub->extension_width)
-		rc->drawEndX = cub->extension_width - 1;
+	if (rc->drawstarty < 0)
+		rc->drawstarty = 0;
+	rc->drawendy = rc->spriteheight / 2 + cub->extension_height / 2;
+	if (rc->drawendy >= cub->extension_height)
+		rc->drawendy = cub->extension_height - 1;
+	rc->spritewidth = abs((int)(cub->extension_height / (rc->transformy)));
+	rc->drawstarts = -rc->spritewidth / 2 + rc->spritescreenx;
+	if (rc->drawstarts < 0)
+		rc->drawstarts = 0;
+	rc->drawendx = rc->spritewidth / 2 + rc->spritescreenx;
+	if (rc->drawendx >= cub->extension_width)
+		rc->drawendx = cub->extension_width - 1;
 	drawing_sprites(cub, rc, zbuffer, z);
 }
 
@@ -115,17 +115,17 @@ void	sprites(t_cub *cub, t_raycast *rc, double *zbuffer)
 	sort_sprit(cub, rc, spriteorder);
 	while (i < cub->spnum)
 	{
-		rc->spriteX = cub->sp[spriteorder[i]][1] + 0.5 - cub->myX;
-		rc->spriteY = cub->sp[spriteorder[i]][0] + 0.5 - cub->myY;
-		rc->invDet = 1.0 / (cub->planeX * cub->dirY - cub->dirX * cub->planeY);
-		rc->transformX = rc->invDet * (rc->spriteX * cub->dirY
-		- cub->dirX * rc->spriteY);
-		rc->transformY = rc->invDet * (rc->spriteX * (-cub->planeY)
-		+ cub->planeX * rc->spriteY);
-		rc->spriteScreenX = (int)((cub->extension_width / 2)
-		* (1 + rc->transformX / rc->transformY));
-		rc->spriteHeight = abs((int)(cub->extension_height / rc->transformY));
-		rc->drawStartY = -rc->spriteHeight / 2 + cub->extension_height / 2;
+		rc->spritex = cub->sp[spriteorder[i]][1] + 0.5 - cub->myx;
+		rc->spritey = cub->sp[spriteorder[i]][0] + 0.5 - cub->myy;
+		rc->invdet = 1.0 / (cub->planex * cub->diry - cub->dirx * cub->planey);
+		rc->transformx = rc->invdet * (rc->spritex * cub->diry
+		- cub->dirx * rc->spritey);
+		rc->transformy = rc->invdet * (rc->spritex * (-cub->planey)
+		+ cub->planex * rc->spritey);
+		rc->spritescreenx = (int)((cub->extension_width / 2)
+		* (1 + rc->transformx / rc->transformy));
+		rc->spriteheight = abs((int)(cub->extension_height / rc->transformy));
+		rc->drawstarty = -rc->spriteheight / 2 + cub->extension_height / 2;
 		sprites_next(cub, rc, zbuffer);
 		i++;
 	}

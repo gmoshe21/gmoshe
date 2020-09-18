@@ -1,4 +1,4 @@
-R 1080 600
+R 6400000 6400000000
 
 NO ./colorstone.xpm
 SO ./colorstone.xpm

@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 16:39:07 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/18 15:02:42 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/18 15:24:19 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,21 @@ void		key_w_s(t_cub *cub)
 {
 	if (cub->w)
 	{
-		if (cub->map[(int)(cub->myY)][(int)(cub->myX + cub->dirX
-			* cub->moveSpeed)] == '0')
-			cub->myX += cub->dirX * cub->moveSpeed;
-		if (cub->map[(int)(cub->myY + cub->dirY * cub->moveSpeed)]
-			[(int)(cub->myX)] == '0')
-			cub->myY += cub->dirY * cub->moveSpeed;
+		if (cub->map[(int)(cub->myy)][(int)(cub->myx + cub->dirx
+			* cub->movespeed)] == '0')
+			cub->myx += cub->dirx * cub->movespeed;
+		if (cub->map[(int)(cub->myy + cub->diry * cub->movespeed)]
+			[(int)(cub->myx)] == '0')
+			cub->myy += cub->diry * cub->movespeed;
 	}
 	if (cub->s)
 	{
-		if (cub->map[(int)cub->myY][(int)(cub->myX - cub->dirX
-			* cub->moveSpeed)] == '0')
-			cub->myX -= cub->dirX * cub->moveSpeed;
-		if (cub->map[(int)(cub->myY - cub->dirY * cub->moveSpeed)]
-			[(int)(cub->myX)] == '0')
-			cub->myY -= cub->dirY * cub->moveSpeed;
+		if (cub->map[(int)cub->myy][(int)(cub->myx - cub->dirx
+			* cub->movespeed)] == '0')
+			cub->myx -= cub->dirx * cub->movespeed;
+		if (cub->map[(int)(cub->myy - cub->diry * cub->movespeed)]
+			[(int)(cub->myx)] == '0')
+			cub->myy -= cub->diry * cub->movespeed;
 	}
 }
 
@@ -56,16 +56,16 @@ void		turn_sideways(t_cub *cub)
 
 	if (cub->left)
 	{
-		olddirx = cub->dirX;
-		cub->dirX = cub->dirX * cos(-cub->rotSpeed) - cub->dirY
-		* sin(-cub->rotSpeed);
-		cub->dirY = olddirx * sin(-cub->rotSpeed) + cub->dirY
-		* cos(-cub->rotSpeed);
-		oldplanex = cub->planeX;
-		cub->planeX = cub->planeX * cos(-cub->rotSpeed) - cub->planeY
-		* sin(-cub->rotSpeed);
-		cub->planeY = oldplanex * sin(-cub->rotSpeed) + cub->planeY
-		* cos(-cub->rotSpeed);
+		olddirx = cub->dirx;
+		cub->dirx = cub->dirx * cos(-cub->rotspeed) - cub->diry
+		* sin(-cub->rotspeed);
+		cub->diry = olddirx * sin(-cub->rotspeed) + cub->diry
+		* cos(-cub->rotspeed);
+		oldplanex = cub->planex;
+		cub->planex = cub->planex * cos(-cub->rotspeed) - cub->planey
+		* sin(-cub->rotspeed);
+		cub->planey = oldplanex * sin(-cub->rotspeed) + cub->planey
+		* cos(-cub->rotspeed);
 	}
 }
 
@@ -73,21 +73,21 @@ void		key_a_d(t_cub *cub)
 {
 	if (cub->d)
 	{
-		if (cub->map[(int)(cub->myY)][(int)(cub->myX - cub->dirY
-			* cub->moveSpeed)] == '0')
-			cub->myX -= cub->dirY * cub->moveSpeed;
-		if (cub->map[(int)(cub->myY + cub->dirX * cub->moveSpeed)]
-			[(int)(cub->myX)] == '0')
-			cub->myY += cub->dirX * cub->moveSpeed;
+		if (cub->map[(int)(cub->myy)][(int)(cub->myx - cub->diry
+			* cub->movespeed)] == '0')
+			cub->myx -= cub->diry * cub->movespeed;
+		if (cub->map[(int)(cub->myy + cub->dirx * cub->movespeed)]
+			[(int)(cub->myx)] == '0')
+			cub->myy += cub->dirx * cub->movespeed;
 	}
 	if (cub->a)
 	{
-		if (cub->map[(int)(cub->myY)][(int)(cub->myX + cub->dirY
-			* cub->moveSpeed)] == '0')
-			cub->myX += cub->dirY * cub->moveSpeed;
-		if (cub->map[(int)(cub->myY - cub->dirX * cub->moveSpeed)]
-			[(int)(cub->myX)] == '0')
-			cub->myY -= cub->dirX * cub->moveSpeed;
+		if (cub->map[(int)(cub->myy)][(int)(cub->myx + cub->diry
+			* cub->movespeed)] == '0')
+			cub->myx += cub->diry * cub->movespeed;
+		if (cub->map[(int)(cub->myy - cub->dirx * cub->movespeed)]
+			[(int)(cub->myx)] == '0')
+			cub->myy -= cub->dirx * cub->movespeed;
 	}
 }
 
@@ -100,16 +100,16 @@ void		movement(t_cub *cub)
 	turn_sideways(cub);
 	if (cub->right)
 	{
-		olddirx = cub->dirX;
-		cub->dirX = cub->dirX * cos(cub->rotSpeed) - cub->dirY
-		* sin(cub->rotSpeed);
-		cub->dirY = olddirx * sin(cub->rotSpeed) + cub->dirY
-		* cos(cub->rotSpeed);
-		oldplanex = cub->planeX;
-		cub->planeX = cub->planeX * cos(cub->rotSpeed) - cub->planeY
-		* sin(cub->rotSpeed);
-		cub->planeY = oldplanex * sin(cub->rotSpeed) + cub->planeY
-		* cos(cub->rotSpeed);
+		olddirx = cub->dirx;
+		cub->dirx = cub->dirx * cos(cub->rotspeed) - cub->diry
+		* sin(cub->rotspeed);
+		cub->diry = olddirx * sin(cub->rotspeed) + cub->diry
+		* cos(cub->rotspeed);
+		oldplanex = cub->planex;
+		cub->planex = cub->planex * cos(cub->rotspeed) - cub->planey
+		* sin(cub->rotspeed);
+		cub->planey = oldplanex * sin(cub->rotspeed) + cub->planey
+		* cos(cub->rotspeed);
 	}
 	key_a_d(cub);
 }

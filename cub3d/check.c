@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/14 18:43:20 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/18 13:22:37 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/18 15:57:54 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ void	valid_floor_ceilling(t_cub *cub, char **str)
 
 	i = 0;
 	while (str[i])
+	{
+		if (ft_atoi(str[i]) > 255 || ft_atoi(str[i]) < 0)
+			error_output(3);
 		i++;
+	}
 	if (i != 3)
 		error_output(3);
 }

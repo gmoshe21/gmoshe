@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 17:40:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/18 15:01:58 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/18 18:08:54 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,38 +17,38 @@ void	position2(t_cub *cub, int x, int y)
 {
 	if (cub->map[y][x] == 'W')
 	{
-		cub->dirX = -1;
-		cub->dirY = 0;
-		cub->planeX = 0;
-		cub->planeY = -1;
+		cub->dirx = -1;
+		cub->diry = 0;
+		cub->planex = 0;
+		cub->planey = -1;
 	}
 	if (cub->map[y][x] == 'E')
 	{
-		cub->dirX = 1;
-		cub->dirY = 0;
-		cub->planeX = 0;
-		cub->planeY = 1;
+		cub->dirx = 1;
+		cub->diry = 0;
+		cub->planex = 0;
+		cub->planey = 1;
 	}
 	cub->map[y][x] = '0';
 }
 
 void	position(t_cub *cub, int x, int y)
 {
-	cub->myX = x + 0.5;
-	cub->myY = y + 0.5;
+	cub->myx = x + 0.5;
+	cub->myy = y + 0.5;
 	if (cub->map[y][x] == 'N')
 	{
-		cub->dirX = 0;
-		cub->dirY = -1;
-		cub->planeX = 1;
-		cub->planeY = 0;
+		cub->dirx = 0;
+		cub->diry = -1;
+		cub->planex = 1;
+		cub->planey = 0;
 	}
 	if (cub->map[y][x] == 'S')
 	{
-		cub->dirX = 0;
-		cub->dirY = 1;
-		cub->planeX = -1;
-		cub->planeY = 0;
+		cub->dirx = 0;
+		cub->diry = 1;
+		cub->planex = -1;
+		cub->planey = 0;
 	}
 	position2(cub, x, y);
 }
@@ -73,6 +73,10 @@ void	reading(t_cub *cub, char *s)
 	if (!(check(cub)))
 		error_output(4);
 	my_map(cub);
+	if (!cub->check || cub->ceilling == -1 || cub->floor == -1)
+		error_output(3);
+	if (!cub->extension_height || !cub->extension_width)
+		error_output(1);
 }
 
 void	struc(t_cub *cub)
@@ -86,10 +90,10 @@ void	struc(t_cub *cub)
 	cub->extension_width = 0;
 	cub->map1 = malloc(sizeof(char) * 1);
 	cub->map1[0] = '\0';
-	cub->myX = 0;
-	cub->myY = 0;
-	cub->moveSpeed = 0.07;
-	cub->rotSpeed = 0.03;
+	cub->myx = 0;
+	cub->myy = 0;
+	cub->movespeed = 0.07;
+	cub->rotspeed = 0.03;
 	cub->w = 0;
 	cub->s = 0;
 	cub->a = 0;
@@ -108,20 +112,19 @@ int		main(int argc, char **argv)
 {
 	t_cub	cub;
 
-	if (argc > 2)
+	if (argc < 2 || argc > 3)
 		return (0);
 	struc(&cub);
 	reading(&cub, argv[1]);
-	if (!cub.check || cub.ceilling == -1 || cub.floor == -1)
-		error_output(3);
-	if (!cub.extension_height || !cub.extension_width)
-		error_output(1);
 	cub.mlx = mlx_init();
 	cub.win = mlx_new_window(cub.mlx, cub.extension_width, cub.extension_height, "cub3d");
 	movement(&cub);
 	cub.img = mlx_new_image(cub.mlx, cub.extension_width, cub.extension_height);
 	cub.add = mlx_get_data_addr(cub.img, &cub.pixel, &cub.length, &cub.endian);
 	raycasting(&cub);
+	if (argv[2])
+		scrin_bmp(&cub);
+	cub.check = 0;
 	mlx_put_image_to_window(cub.mlx, cub.win, cub.img, 0, 0);
 	mlx_destroy_image(cub.mlx, cub.img);
 	mlx_loop_hook(cub.mlx, frame, &cub);
