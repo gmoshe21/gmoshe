@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/13 14:50:50 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/14 18:37:11 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/18 13:24:38 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	pars_sprit2(t_cub *cub)
 	int	i;
 	int	j;
 	int	k;
-	
+
 	j = 0;
 	i = 0;
 	while (cub->map[j])
@@ -48,7 +48,7 @@ void	pars_sprit(t_cub *cub, int z)
 		x = 0;
 		while (cub->map[y][x])
 		{
-			if(cub->map[y][x] == '2')
+			if (cub->map[y][x] == '2')
 				cub->spnum++;
 			x++;
 		}
@@ -64,7 +64,7 @@ void	pars_sprit(t_cub *cub, int z)
 	pars_sprit2(cub);
 }
 
-void		my_map(t_cub *cub)
+void	my_map(t_cub *cub)
 {
 	int		x;
 	int		y;
@@ -77,14 +77,14 @@ void		my_map(t_cub *cub)
 		while (cub->map[y][x])
 		{
 			f = cub->map[y][x];
-			if(f == 'N' || f == 'S' || f == 'W' || f == 'E')
-				break;
+			if (f == 'N' || f == 'S' || f == 'W' || f == 'E')
+				break ;
 			x++;
 		}
-		if(f == 'N' || f == 'S' || f == 'W' || f == 'E')
+		if (f == 'N' || f == 'S' || f == 'W' || f == 'E')
 		{
 			position(cub, x, y);
-			break;
+			break ;
 		}
 		y++;
 	}

@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 19:10:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/14 18:57:06 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/18 15:01:02 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include "mlx.h"
 # include <math.h>
+# include "libft.h"
 
 enum
 {
@@ -109,7 +110,7 @@ typedef struct	s_raycast
 	int		drawEndX;
 }			t_raycast;
 
-void	parsing(char *line, t_cub *cub);
+void		parsing(char *line, t_cub *cub);
 void	raycasting(t_cub *cub);
 void	texture_coordinate_stepping(t_cub *cub, t_raycast *rc, int x);
 void	movement(t_cub *cub);
@@ -123,5 +124,10 @@ void	sprites(t_cub *cub, t_raycast *rc, double *ZBuffer);
 void	my_map(t_cub *cub);
 void	position(t_cub *cub, int x, int y);
 int		check(t_cub *cub);
+void	valid_floor_ceilling(t_cub *cub, char **str);
+void	error_output(int i);
+int		close_p(int game, t_cub *cub);
+
+# define CHEK(x) if(!x) return (0);
 
 #endif

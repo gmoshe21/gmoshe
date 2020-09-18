@@ -6,13 +6,12 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 17:40:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/14 18:57:24 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/18 15:01:58 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub.h"
 #include "get_next_line.h"
-#include "libft.h"
 
 void	position2(t_cub *cub, int x, int y)
 {
@@ -54,12 +53,12 @@ void	position(t_cub *cub, int x, int y)
 	position2(cub, x, y);
 }
 
-void	reading(t_cub *cub)
+void	reading(t_cub *cub, char *s)
 {
 	char	*line;
 	int		fd;
 
-	fd = open("cub.txt", O_RDONLY);
+	fd = open(s, O_RDONLY);
 	while (get_next_line(fd, &line))
 	{
 		parsing(line, cub);
@@ -68,9 +67,11 @@ void	reading(t_cub *cub)
 	get_next_line(fd, &line);
 	parsing(line, cub);
 	free(line);
+	if (!cub->map1[0])
+		error_output(4);
 	cub->map = ft_split(cub->map1, '|');
-	if(!(check(cub)))
-		cub->check = 0;
+	if (!(check(cub)))
+		error_output(4);
 	my_map(cub);
 }
 
@@ -87,7 +88,7 @@ void	struc(t_cub *cub)
 	cub->map1[0] = '\0';
 	cub->myX = 0;
 	cub->myY = 0;
-	cub->moveSpeed = 0.05;
+	cub->moveSpeed = 0.07;
 	cub->rotSpeed = 0.03;
 	cub->w = 0;
 	cub->s = 0;
@@ -99,19 +100,22 @@ void	struc(t_cub *cub)
 	cub->win = NULL;
 	cub->spnum = 0;
 	cub->check = 1;
+	cub->ceilling = -1;
+	cub->floor = -1;
 }
 
-int		main(void)
+int		main(int argc, char **argv)
 {
 	t_cub	cub;
 
-	struc(&cub);
-	reading(&cub);
-	if (!cub.check)
-	{
-		write(1, "error", 5);
+	if (argc > 2)
 		return (0);
-	}
+	struc(&cub);
+	reading(&cub, argv[1]);
+	if (!cub.check || cub.ceilling == -1 || cub.floor == -1)
+		error_output(3);
+	if (!cub.extension_height || !cub.extension_width)
+		error_output(1);
 	cub.mlx = mlx_init();
 	cub.win = mlx_new_window(cub.mlx, cub.extension_width, cub.extension_height, "cub3d");
 	movement(&cub);
@@ -123,5 +127,6 @@ int		main(void)
 	mlx_loop_hook(cub.mlx, frame, &cub);
 	mlx_hook(cub.win, 2, (1L << 0), key_p, &cub);
 	mlx_hook(cub.win, 3, (1L << 1), key_u, &cub);
+	mlx_hook(cub.win, 17, 0, close_p, &cub);
 	mlx_loop(cub.mlx);
 }

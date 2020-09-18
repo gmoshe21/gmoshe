@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 18:27:42 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/14 17:54:50 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/18 15:00:13 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,21 @@ void	texture(t_cub *cub, t_raycast *rc)
 	void	*tx[6];
 	int		b[3];
 
-	tx[0] = mlx_xpm_file_to_image(cub->mlx, cub->west, &rc->tWidth[0],
-	&rc->tHeight[0]);
-	tx[1] = mlx_xpm_file_to_image(cub->mlx, cub->east, &rc->tWidth[1],
-	&rc->tHeight[1]);
-	tx[2] = mlx_xpm_file_to_image(cub->mlx, cub->south, &rc->tWidth[2],
-	&rc->tHeight[2]);
-	tx[3] = mlx_xpm_file_to_image(cub->mlx, cub->north, &rc->tWidth[3],
-	&rc->tHeight[3]);
-	tx[4] = mlx_xpm_file_to_image(cub->mlx, cub->sprite, &rc->tWidth[4],
-	&rc->tHeight[4]);
+	if (!(tx[0] = mlx_xpm_file_to_image(cub->mlx, cub->west, &rc->tWidth[0],
+	&rc->tHeight[0])))
+		error_output(2);
+	if(!(tx[1] = mlx_xpm_file_to_image(cub->mlx, cub->east, &rc->tWidth[1],
+	&rc->tHeight[1])))
+		error_output(2);
+	if (!(tx[2] = mlx_xpm_file_to_image(cub->mlx, cub->south, &rc->tWidth[2],
+	&rc->tHeight[2])))
+		error_output(2);
+	if (!(tx[3] = mlx_xpm_file_to_image(cub->mlx, cub->north, &rc->tWidth[3],
+	&rc->tHeight[3])))
+		error_output(2);
+	if (!(tx[4] = mlx_xpm_file_to_image(cub->mlx, cub->sprite, &rc->tWidth[4],
+	&rc->tHeight[4])))
+		error_output(2);
 	rc->texture[0] = (int*)mlx_get_data_addr(tx[0], &b[0], &b[1], &b[2]);
 	rc->texture[1] = (int*)mlx_get_data_addr(tx[1], &b[0], &b[1], &b[2]);
 	rc->texture[2] = (int*)mlx_get_data_addr(tx[2], &b[0], &b[1], &b[2]);
@@ -108,10 +113,11 @@ void	raycasting(t_cub *cub)
 	double		*zbuffer;
 	t_raycast	raycast;
 
-	x = 0;
-	zbuffer = malloc(sizeof(double) * cub->extension_width);
+	x = -1;
+	if (!(zbuffer = malloc(sizeof(double) * cub->extension_width)))
+		error_output(5);
 	texture(cub, &raycast);
-	while (x < cub->extension_width)
+	while (++x < cub->extension_width)
 	{
 		raycast.cameraX = 2 * x / (double)cub->extension_width - 1;
 		raycast.rayDirX = cub->dirX + cub->planeX * raycast.cameraX;
@@ -125,7 +131,6 @@ void	raycasting(t_cub *cub)
 		if (raycast.side == 1 && raycast.rayDirY > 0)
 			raycast.texX = raycast.tWidth[3] - raycast.texX - 1;
 		texture_coordinate_stepping(cub, &raycast, x);
-		x++;
 		zbuffer[x] = raycast.perpWallDist;
 	}
 	sprites(cub, &raycast, zbuffer);
