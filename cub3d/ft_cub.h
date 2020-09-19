@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 19:10:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/18 18:21:08 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/19 13:53:54 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,8 @@ void			valid_floor_ceilling(t_cub *cub, char **str);
 void			error_output(int i);
 int				close_p(int game, t_cub *cub);
 void	scrin_bmp(t_cub *cub);
+int i(int x);
+void	chek_scrin(t_cub *cub, char *argv);
 
 # define CHEK(x) if(!x) return (0);
 

@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 17:40:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/18 18:08:54 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/19 15:50:33 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ void	reading(t_cub *cub, char *s)
 	char	*line;
 	int		fd;
 
+	line = ft_strrchr(s, '.');
+	if ((ft_strncmp(line, ".cub", ft_strlen(line))))
+		error_output(6);
 	fd = open(s, O_RDONLY);
 	while (get_next_line(fd, &line))
 	{
@@ -70,13 +73,13 @@ void	reading(t_cub *cub, char *s)
 	if (!cub->map1[0])
 		error_output(4);
 	cub->map = ft_split(cub->map1, '|');
-	if (!(check(cub)))
-		error_output(4);
-	my_map(cub);
 	if (!cub->check || cub->ceilling == -1 || cub->floor == -1)
 		error_output(3);
 	if (!cub->extension_height || !cub->extension_width)
 		error_output(1);
+	if (!(check(cub)))
+		error_output(4);
+	my_map(cub);
 }
 
 void	struc(t_cub *cub)
@@ -88,8 +91,8 @@ void	struc(t_cub *cub)
 	cub->sprite = NULL;
 	cub->extension_height = 0;
 	cub->extension_width = 0;
-	cub->map1 = malloc(sizeof(char) * 1);
-	cub->map1[0] = '\0';
+	if (!(cub->map1 = malloc(sizeof(char) * 1)))
+		error_output(5);cub->map1[0] = '\0';
 	cub->myx = 0;
 	cub->myy = 0;
 	cub->movespeed = 0.07;
@@ -116,14 +119,17 @@ int		main(int argc, char **argv)
 		return (0);
 	struc(&cub);
 	reading(&cub, argv[1]);
+	chek_scrin(&cub, argv[2]);
 	cub.mlx = mlx_init();
 	cub.win = mlx_new_window(cub.mlx, cub.extension_width, cub.extension_height, "cub3d");
 	movement(&cub);
 	cub.img = mlx_new_image(cub.mlx, cub.extension_width, cub.extension_height);
 	cub.add = mlx_get_data_addr(cub.img, &cub.pixel, &cub.length, &cub.endian);
 	raycasting(&cub);
-	if (argv[2])
+	if (argv[2] && !(ft_strncmp(argv[2], "--save", 7)))
 		scrin_bmp(&cub);
+	else if (argv[2])
+		return (0);
 	cub.check = 0;
 	mlx_put_image_to_window(cub.mlx, cub.win, cub.img, 0, 0);
 	mlx_destroy_image(cub.mlx, cub.img);

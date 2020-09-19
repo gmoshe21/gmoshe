@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 16:52:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/18 16:39:11 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/19 15:38:52 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,4 +129,5 @@ void	sprites(t_cub *cub, t_raycast *rc, double *zbuffer)
 		sprites_next(cub, rc, zbuffer);
 		i++;
 	}
+	free(zbuffer);
 }

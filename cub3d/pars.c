@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 19:35:23 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/18 13:19:33 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/19 15:49:48 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ void	pars_map(char *line, t_cub *cub)
 {
 	char	*linemap;
 
-	linemap = ft_strjoin(line, "|\0");
+	if (cub->ceilling == -1)
+		cub->map1[0] = '\0';
+	if (!(linemap = ft_strjoin(line, "|\0")))
+		error_output(5);
 	if (!(cub->map1 = ft_strjoin(cub->map1, linemap)))
 		error_output(5);
 	free(linemap);

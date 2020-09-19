@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 17:18:55 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/18 13:03:21 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/19 15:02:29 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	error_output(int i)
 		write(1, "not valid map", 13);
 	if (i == 5)
 		write(1, "memory allocation error", 23);
+	if (i == 6)
+		write(1, "invalid file extension", 22);
 	exit(0);
 }
 
