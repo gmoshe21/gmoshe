@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 19:10:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/19 13:53:54 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/20 17:08:14 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,6 @@ typedef struct	s_raycast
 	int			stepx;
 	int			stepy;
 	int			lineheight;
-	// int			theight[5];
-	// int			twidth[5];
-	// int			*texture[5];
 	int			drawstart;
 	int			drawend;
 	int			texx;
@@ -130,9 +127,10 @@ int				check(t_cub *cub);
 void			valid_floor_ceilling(t_cub *cub, char **str);
 void			error_output(int i);
 int				close_p(int game, t_cub *cub);
-void	scrin_bmp(t_cub *cub);
-int i(int x);
-void	chek_scrin(t_cub *cub, char *argv);
+void			scrin_bmp(t_cub *cub);
+int				i(int x);
+void			chek_scrin(t_cub *cub, char *argv);
+void			check_file(char *line, t_cub *cub);
 
 # define CHEK(x) if(!x) return (0);
 

@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 17:18:55 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/19 15:02:29 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/20 15:58:31 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	error_output(int i)
 		write(1, "memory allocation error", 23);
 	if (i == 6)
 		write(1, "invalid file extension", 22);
+	if (i == 7)
+		write(1, "invalid file", 12);
 	exit(0);
 }
 

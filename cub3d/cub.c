@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 17:40:43 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/19 15:50:33 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/20 18:33:57 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,8 @@ void	struc(t_cub *cub)
 	cub->extension_height = 0;
 	cub->extension_width = 0;
 	if (!(cub->map1 = malloc(sizeof(char) * 1)))
-		error_output(5);cub->map1[0] = '\0';
-	cub->myx = 0;
-	cub->myy = 0;
+		error_output(5);
+	cub->map1[0] = '\0';
 	cub->movespeed = 0.07;
 	cub->rotspeed = 0.03;
 	cub->w = 0;
@@ -115,21 +114,20 @@ int		main(int argc, char **argv)
 {
 	t_cub	cub;
 
-	if (argc < 2 || argc > 3)
+	if (argc < 2 || argc > 3 || (argv[2] && (ft_strncmp(argv[2], "--save", 7))))
 		return (0);
 	struc(&cub);
 	reading(&cub, argv[1]);
 	chek_scrin(&cub, argv[2]);
 	cub.mlx = mlx_init();
-	cub.win = mlx_new_window(cub.mlx, cub.extension_width, cub.extension_height, "cub3d");
+	cub.win = mlx_new_window(cub.mlx, cub.extension_width,
+	cub.extension_height, "cub3d");
 	movement(&cub);
 	cub.img = mlx_new_image(cub.mlx, cub.extension_width, cub.extension_height);
 	cub.add = mlx_get_data_addr(cub.img, &cub.pixel, &cub.length, &cub.endian);
 	raycasting(&cub);
 	if (argv[2] && !(ft_strncmp(argv[2], "--save", 7)))
 		scrin_bmp(&cub);
-	else if (argv[2])
-		return (0);
 	cub.check = 0;
 	mlx_put_image_to_window(cub.mlx, cub.win, cub.img, 0, 0);
 	mlx_destroy_image(cub.mlx, cub.img);

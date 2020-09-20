@@ -4,8 +4,6 @@ NO ./colorstone.xpm
 SO ./colorstone.xpm
 WE ./bluestone.xpm
 EA ./colorstone.xpm
-tf ./colorstone.xpm
-tc ./bluestone.xpm
 
 S  ./barrel.xpm
 F 0,255,0

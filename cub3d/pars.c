@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 19:35:23 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/19 15:49:48 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/20 17:17:20 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int		close_p(int game, t_cub *cub)
 
 void	pars_other(char *line, t_cub *cub)
 {
+	check_file(line, cub);
 	if ((ft_strnstr(line, "R ", 2)))
 	{
 		line++;
@@ -51,19 +52,20 @@ void	pars_texture(char *line, t_cub *cub)
 
 	while (*line == ' ')
 		line++;
+	check_file(line, cub);
 	line = line + 3;
 	if (!(texture = ft_strdup(line)))
 		error_output(5);
 	line = line - 3;
-	if ((ft_strnstr(line, "NO ", 3)))
+	if ((ft_strnstr(line, "NO ", 3)) && !cub->north)
 		cub->north = texture;
-	else if ((ft_strnstr(line, "SO ", 3)))
+	else if ((ft_strnstr(line, "SO ", 3)) && !cub->south)
 		cub->south = texture;
-	else if ((ft_strnstr(line, "WE ", 3)))
+	else if ((ft_strnstr(line, "WE ", 3)) && !cub->west)
 		cub->west = texture;
-	else if ((ft_strnstr(line, "EA ", 3)))
+	else if ((ft_strnstr(line, "EA ", 3)) && !cub->east)
 		cub->east = texture;
-	else if ((ft_strnstr(line, "S ", 2)))
+	else if ((ft_strnstr(line, "S ", 2)) && !cub->sprite)
 		cub->sprite = texture;
 }
 
@@ -71,8 +73,6 @@ void	pars_map(char *line, t_cub *cub)
 {
 	char	*linemap;
 
-	if (cub->ceilling == -1)
-		cub->map1[0] = '\0';
 	if (!(linemap = ft_strjoin(line, "|\0")))
 		error_output(5);
 	if (!(cub->map1 = ft_strjoin(cub->map1, linemap)))
@@ -82,28 +82,28 @@ void	pars_map(char *line, t_cub *cub)
 
 void	parsing(char *line, t_cub *cub)
 {
-	char	*linemap;
-
 	while (*line == ' ')
 		line++;
-	if ((ft_strnstr(line, "R ", 2)))
+	if ((ft_strnstr(line, "NO ", 3)) || (ft_strnstr(line, "SO ", 3)) ||
+		(ft_strnstr(line, "WE ", 3)) || (ft_strnstr(line, "EA ", 3)) ||
+		(ft_strnstr(line, "S ", 2)))
+	{
+		pars_texture(line, cub);
+		return ;
+	}
+	if ((ft_strnstr(line, "F ", 2)) || (ft_strnstr(line, "C ", 2)) ||
+		(ft_strnstr(line, "R ", 2)))
+	{
 		pars_other(line, cub);
-	if ((ft_strnstr(line, "NO ", 3)))
-		pars_texture(line, cub);
-	if ((ft_strnstr(line, "SO ", 3)))
-		pars_texture(line, cub);
-	if ((ft_strnstr(line, "WE ", 3)))
-		pars_texture(line, cub);
-	if ((ft_strnstr(line, "EA ", 3)))
-		pars_texture(line, cub);
-	if ((ft_strnstr(line, "S ", 2)))
-		pars_texture(line, cub);
-	if ((ft_strnstr(line, "F ", 2)) || (ft_strnstr(line, "C ", 2)))
-		pars_other(line, cub);
-	if (*line == '1')
+		return ;
+	}
+	if (*line == '1' || *line == '0')
 	{
 		while (*(line - 1) == ' ')
 			line--;
 		pars_map(line, cub);
+		return ;
 	}
+	if (line[0])
+		error_output(7);
 }

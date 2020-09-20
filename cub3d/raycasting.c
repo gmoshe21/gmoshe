@@ -6,7 +6,7 @@
 /*   By: gmoshe <gmoshe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 18:27:42 by gmoshe            #+#    #+#             */
-/*   Updated: 2020/09/19 13:01:01 by gmoshe           ###   ########.fr       */
+/*   Updated: 2020/09/20 18:35:27 by gmoshe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	rayd(t_cub *cub, t_raycast *rc)
 {
+	rc->raydiry = cub->diry + cub->planey * rc->camerax;
 	rc->mapx = (int)cub->myx;
 	rc->mapy = (int)cub->myy;
 	rc->deltadistx = fabs(1 / rc->raydirx);
@@ -122,7 +123,6 @@ void	raycasting(t_cub *cub)
 	{
 		raycast.camerax = 2 * x / (double)cub->extension_width - 1;
 		raycast.raydirx = cub->dirx + cub->planex * raycast.camerax;
-		raycast.raydiry = cub->diry + cub->planey * raycast.camerax;
 		rayd(cub, &raycast);
 		dda(cub, &raycast);
 		height_pixel(cub, &raycast);
